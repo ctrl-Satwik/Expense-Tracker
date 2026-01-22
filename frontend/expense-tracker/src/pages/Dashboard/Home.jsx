@@ -69,7 +69,7 @@ const Home = () => {
           <InfoCard
             icon={<LuHandCoins />}
             label="Total Expense"
-            value={addThousandSeparator(dashboardData?.totalExpense || 0)}
+            value={addThousandSeparator(dashboardData?.totalExpenses || 0)}
             color="bg-red-500"
           />
         </div>
@@ -83,7 +83,7 @@ const Home = () => {
           <FinanceOverview
             totalBalance={dashboardData?.totalBalance || 0}
             totalIncome={dashboardData?.totalIncome || 0}
-            totalExpense={dashboardData?.totalExpense || 0}
+            totalExpense={dashboardData?.totalExpenses || 0}
           />
 
           <ExpenseTransactions
@@ -96,7 +96,7 @@ const Home = () => {
           />
 
           <RecentIncomeWithChart
-            data={dashboardData?.last60DaysIncome?.transactions?.slice(0,4) || []}
+            data={dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []}
             totalIncome={dashboardData?.totalIncome || 0}
           />
 

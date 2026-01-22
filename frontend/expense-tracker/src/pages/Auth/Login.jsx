@@ -31,7 +31,7 @@ const Login = () => {
     }
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters long");    
+      setError("Password must be at least 8 characters long");
       return;
     }
 
@@ -45,7 +45,7 @@ const Login = () => {
       });
       const { token, user } = response.data;
 
-      if(token) {
+      if (token) {
         localStorage.setItem("token", token);
         updateUser(user);
         navigate("/dashboard");
@@ -67,7 +67,7 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleLogin}>
-          <Input 
+          <Input
             value={email}
             onChange={({ target }) => setEmail(target.value)}
             label="Email Address"
@@ -75,7 +75,7 @@ const Login = () => {
             type='text'
           />
 
-          <Input 
+          <Input
             value={password}
             onChange={({ target }) => setPassword(target.value)}
             label="Password"
@@ -83,7 +83,6 @@ const Login = () => {
             type='password'
           />
 
-          
           {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
           <button type="submit" className="btn-primary">
             LOGIN
@@ -92,10 +91,10 @@ const Login = () => {
           <p className='text-[13px] text-slate-800 mt-3'>
             Don't have an account?{" "}
             <Link to='/signUp' className='font-medium text-primary underline'>
-              SignUp 
+              SignUp
             </Link>
           </p>
-          
+
         </form>
       </div>
     </AuthLayout>

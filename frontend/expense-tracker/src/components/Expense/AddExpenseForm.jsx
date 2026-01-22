@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import Input from '../Inputs/Input';
+import Input from '../Inputs/Input'
 import EmojiPickerPopup from '../EmojiPickerPopup';
 
-const AddIncomeForm = ({onAddIncome}) => {
+const AddExpenseForm = ({onAddExpense}) => {
     const [income, setIncome] = useState({
-        source: "",
+        category: "",
         amount: "",
         date: "",
         icon: "",
@@ -17,41 +17,42 @@ const AddIncomeForm = ({onAddIncome}) => {
             icon={income.icon}
             onSelect={(selectedIcon) => handleChange("icon", selectedIcon)}
         />
+
         <Input
-            value={income.source}
-            onChange={({target}) => handleChange("source", target.value)}
-            label="Income Source"
-            placeholder="Freelance, Salary, etc."
+            value={income.category}
+            onChange={({ target }) => handleChange("category", target.value)}
+            label="Category"
+            placeholder="Rent, Groceries, etc"
             type="text"
         />
 
         <Input
             value={income.amount}
-            onChange={({target}) => handleChange("amount", target.value)}
+            onChange={({ target }) => handleChange("amount", target.value)}
             label="Amount"
-            placeholder="Add amount"
+            placeholder="Enter amount"
             type="number"
         />
 
         <Input
             value={income.date}
-            onChange={({target}) => handleChange("date", target.value)}
+            onChange={({ target }) => handleChange("date", target.value)}
             label="Date"
-            placeholder=""
+            placeholder="Enter date"
             type="date"
         />
 
         <div className='flex justify-end mt-6'>
             <button
-                type="button"
+                type='button'
                 className='add-btn add-btn-fill'
-                onClick={() => onAddIncome(income)}
+                onClick={() => onAddExpense(income)}
             >
-                Add Income
+                Add Expense
             </button>
         </div>
     </div>
   )
 }
 
-export default AddIncomeForm
+export default AddExpenseForm
