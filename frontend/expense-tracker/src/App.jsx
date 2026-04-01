@@ -1,12 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from 'react-router-dom';
-
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
 import Home from './pages/Dashboard/Home';
@@ -23,12 +22,12 @@ const App = () => {
         <Router>
           <Routes>
             <Route path='/' element={<Root />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signUp' element={<SignUp />} />
-            <Route path='/dashboard' element={<Home />} />
-            <Route path='/income' element={<Income />} />
-            <Route path='/expense' element={<Expense />} />
-            <Route path='/my-account' element={<MyAccount />} />
+            <Route path='/login' exact element={<Login />} />
+            <Route path='/signUp' exact element={<SignUp />} />
+            <Route path='/dashboard' exact element={<Home />} />
+            <Route path='/income' exact element={<Income />} />
+            <Route path='/expense' exact element={<Expense />} />
+            <Route path='/my-account' exact element={<MyAccount />} />
           </Routes>
         </Router>
       </div>
@@ -42,14 +41,16 @@ const App = () => {
         }}
       />
     </UserProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
 
 const Root = () => {
+  //check if token exists in localStorage
   const isAuthenticated = !!localStorage.getItem("token");
 
+  //Redirect to dashboard if authenticated, else to login
   return isAuthenticated ? (
     <Navigate to="/dashboard" />
   ) : (
