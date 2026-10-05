@@ -33,8 +33,11 @@ axiosInstance.interceptors.response.use(
         //Handle common error globally
         if (error.response) {
             if (error.response.status === 401) {
-                // Redirect to login page
-                window.location.href = "/login";
+                // Token is invalid or expired - drop it and redirect to login page
+                localStorage.removeItem("token");
+                if (window.location.pathname !== "/login") {
+                    window.location.href = "/login";
+                }
             } else if (error.response.status === 500) {
                 console.error("Server error. Please try again later.");
             }

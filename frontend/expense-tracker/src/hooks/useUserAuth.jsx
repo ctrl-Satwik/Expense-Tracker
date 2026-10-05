@@ -12,6 +12,12 @@ export const useUserAuth = () => {
     useEffect(() => {
         if (user) return;
 
+        // No token (e.g. just logged out) - skip the request that would only return 401
+        if (!localStorage.getItem("token")) {
+            navigate("/login");
+            return;
+        }
+
         let isMounted = true;
 
         const fetchUserInfo = async () => {
