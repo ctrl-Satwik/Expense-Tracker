@@ -6,8 +6,10 @@ import axiosInstance from '../../utils/axiosInstance';
 import CharAvatar from '../../components/Cards/CharAvatar';
 import { LuUpload } from 'react-icons/lu';
 import toast from 'react-hot-toast';
+import { useUserAuth } from '../../hooks/useUserAuth';
 
 const MyAccount = () => {
+    useUserAuth();
     const { user, updateUser } = useContext(UserContext);
 
     const [fullName, setFullName] = useState("");
@@ -74,7 +76,7 @@ const MyAccount = () => {
     return (
         <DashboardLayout activeMenu="My Account">
             <div className='my-5 mx-auto w-full max-w-xl'>
-                <div className='bg-white p-8 rounded-2xl shadow-md border border-gray-200/50'>
+                <div className='bg-white p-5 sm:p-8 rounded-2xl shadow-md border border-gray-200/50'>
                     <h2 className='text-xl font-medium text-black mb-6'>My Account</h2>
 
                     <div className='flex flex-col gap-6'>
@@ -103,7 +105,7 @@ const MyAccount = () => {
                                     type="text"
                                     value={fullName}
                                     onChange={(e) => setFullName(e.target.value)}
-                                    className='w-full p-3 bg-slate-50 border border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-sm'
+                                    className='w-full p-3 bg-slate-50 border border-gray-200 rounded-lg outline-none focus:border-primary transition-colors text-base md:text-sm'
                                     placeholder='Enter your full name'
                                 />
                             </div>
@@ -114,7 +116,7 @@ const MyAccount = () => {
                                     type="email"
                                     value={email}
                                     disabled
-                                    className='w-full p-3 bg-slate-100 border border-gray-200 rounded-lg outline-none text-gray-500 cursor-not-allowed text-sm'
+                                    className='w-full p-3 bg-slate-100 border border-gray-200 rounded-lg outline-none text-gray-500 cursor-not-allowed text-base md:text-sm'
                                 />
                                 <p className='text-xs text-gray-400'>Email address cannot be changed</p>
                             </div>

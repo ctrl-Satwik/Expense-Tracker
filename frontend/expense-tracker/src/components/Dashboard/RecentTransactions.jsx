@@ -6,7 +6,7 @@ import TransactionInfoCard from '../Cards/TransactionInfoCard'
 const RecentTransactions = ({transactions, onSeeMore}) => {
   return (
     <div className='card'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between gap-3'>
             <h5 className='text-lg'>Recent Transactions</h5>
 
             <button className='card-btn' onClick={onSeeMore}>

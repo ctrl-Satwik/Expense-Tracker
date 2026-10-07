@@ -6,7 +6,7 @@ import moment from 'moment'
 const ExpenseTransactions = ({transactions, onSeeMore}) => {
   return (
     <div className='card'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between gap-3'>
             <h5 className='text-lg'>Expenses</h5>
 
             <button className='card-btn' onClick={onSeeMore}>

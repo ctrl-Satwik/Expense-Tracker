@@ -51,7 +51,7 @@ const Home = () => {
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className='my-5 mx-auto'>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 sm:[&>*:last-child]:col-span-2 xl:[&>*:last-child]:col-span-1 gap-4 sm:gap-6'>
           <InfoCard
             icon={<IoMdCard />}
             label="Total Balance"
@@ -74,7 +74,7 @@ const Home = () => {
           />
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-6'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6'>
           <RecentTransactions
             transactions={dashboardData?.recentTransactions}
             onSeeMore={() => navigate("/expense")}

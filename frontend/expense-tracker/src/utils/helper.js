@@ -59,3 +59,11 @@ export const prepareExpenseLineChartData = (data = []) => {
 
     return chartData;
 };
+
+// Short axis labels for large amounts, e.g. 1234567 -> "12.3L", 120000000 -> "12Cr"
+const compactFormatter = new Intl.NumberFormat("en-IN", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+});
+
+export const formatCompactNumber = (num) => compactFormatter.format(Number(num) || 0);

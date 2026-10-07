@@ -14,12 +14,11 @@
 
   body {
     background-color: #fcfbfc;
-    overflow-x: hidden;
   }
 }
 
 .input-box {
-  @apply w-full flex justify-between gap-3 text-sm text-black bg-slate-100 rounded px-4 py-3 mb-4 mt-3 border border-slate-200 outline-none;
+  @apply w-full flex justify-between gap-3 text-base md:text-sm text-black bg-slate-100 rounded px-4 py-3 mb-4 mt-3 border border-slate-200 outline-none;
 }
 
 .btn-primary {
@@ -27,11 +26,11 @@
 }
 
 .card {
-  @apply bg-white p-6 rounded-2xl shadow-md shadow-gray-100 border border-gray-200/50;
+  @apply bg-white p-4 sm:p-6 rounded-2xl shadow-md shadow-gray-100 border border-gray-200/50;
 }
 
 .card-btn {
-  @apply flex items-center gap-3 text-[12px] font-medium text-gray-700 hover:text-purple-500 bg-gray-50 hover:bg-purple-50 px-4 py-1.5 rounded-lg border border-gray-200/50 cursor-pointer;
+  @apply flex shrink-0 items-center gap-3 whitespace-nowrap text-[12px] font-medium text-gray-700 hover:text-purple-500 bg-gray-50 hover:bg-purple-50 px-4 py-1.5 rounded-lg border border-gray-200/50 cursor-pointer;
 }
 
 .add-btn {

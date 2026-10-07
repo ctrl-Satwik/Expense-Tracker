@@ -10,6 +10,7 @@ import {
     Legend,
     Cell,
 } from 'recharts';
+import { formatCompactNumber } from '../../utils/helper';
 
 
 const CustomBarChart = ({ data }) => {
@@ -38,7 +39,7 @@ const CustomBarChart = ({ data }) => {
                     <CartesianGrid stroke="none" />
 
                     <XAxis dataKey="category" tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
-                    <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
+                    <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" tickFormatter={formatCompactNumber} />
 
                     <Tooltip content={CustomTooltip} />
 

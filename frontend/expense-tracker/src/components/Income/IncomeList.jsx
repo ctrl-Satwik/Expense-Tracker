@@ -6,7 +6,7 @@ import moment from 'moment'
 const IncomeList = ({transactions, onDelete, onDownload}) => {
   return (
     <div className='card'>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center justify-between gap-3'>
             <h5 className='text-lg'>Income Sources</h5>
 
             <button className='card-btn' onClick={onDownload}>

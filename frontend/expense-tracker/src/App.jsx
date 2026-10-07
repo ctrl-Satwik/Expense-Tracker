@@ -28,6 +28,8 @@ const App = () => {
             <Route path='/income' element={<Income />} />
             <Route path='/expense' element={<Expense />} />
             <Route path='/my-account' element={<MyAccount />} />
+            {/* Unknown URLs go through Root, which picks /dashboard or /login */}
+            <Route path='*' element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       </div>
@@ -52,8 +54,8 @@ const Root = () => {
 
   //Redirect to dashboard if authenticated, else to login
   return isAuthenticated ? (
-    <Navigate to="/dashboard" />
+    <Navigate to="/dashboard" replace />
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/login" replace />
   );
 };
