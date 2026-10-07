@@ -1,6 +1,6 @@
-const User = require("../models/User");
-const xlsx = require("xlsx");
+const { Types } = require("mongoose");
 const Income = require("../models/Income");
+const { sendExcel } = require("../utils/excel");
 
 // Add Income Source
 exports.addIncome = async (req, res) => {
@@ -43,8 +43,16 @@ exports.getAllIncome = async (req, res) => {
 // Delete Income Source
 exports.deleteIncome = async (req, res) => {
 
+    if (!Types.ObjectId.isValid(req.params.id)) {
+        return res.status(404).json({message: "Income not found"});
+    }
+
     try {
-        await Income.findByIdAndDelete(req.params.id);
+        // Only delete if it belongs to the logged-in user
+        const deleted = await Income.findOneAndDelete({_id: req.params.id, userId: req.user.id});
+        if (!deleted) {
+            return res.status(404).json({message: "Income not found"});
+        }
         res.status(200).json({message: "Income deleted successfully"});
     } catch (err) {
         res.status(500).json({message: "Server Error"});
@@ -63,11 +71,7 @@ exports.downloadIncomeExcel = async (req, res) => {
             Date: item.date,
         }));
 
-        const wb = xlsx.utils.book_new();
-        const ws = xlsx.utils.json_to_sheet(data);
-        xlsx.utils.book_append_sheet(wb, ws, "Income");
-        xlsx.writeFile(wb, "income_details.xlsx");
-        res.download("income_details.xlsx");
+        sendExcel(res, data, "Income", "income_details.xlsx");
     } catch (err) {
         res.status(500).json({message: "Server Error"});
     }

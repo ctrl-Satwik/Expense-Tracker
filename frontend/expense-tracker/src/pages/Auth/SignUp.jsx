@@ -1,14 +1,11 @@
-import React, { useContext, useState } from 'react'
-import axios from "axios";
+import React, { useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
-import { UserContext } from '../../context/UserContext';
-import uploadImage from '../../utils/uploadImage';
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -17,15 +14,11 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState(null);
-
-  const { updateUser } = useContext(UserContext);
-
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
-    let profileImageUrl = "";
 
     if (!fullName) {
       setError("Please enter your name");
@@ -42,37 +35,41 @@ const SignUp = () => {
       return;
     }
 
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+
     setError("");
+    setLoading(true);
 
-    // SignUp API call
+    // SignUp API call - the optional profile photo is sent in the same request
     try {
-
-      // Upload image if present
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("password", password);
       if (profilePic) {
-        const imgUploadRes = await uploadImage(profilePic);
-        profileImageUrl = imgUploadRes.imageUrl || "";
+        formData.append("image", profilePic);
       }
 
-      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-        fullName,
-        email,
-        password,
-        profileImageUrl,
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 30000,
       });
 
-      const { token, user } = response.data;
-
-      if (token) {
-        localStorage.setItem("token", token);
-        updateUser(user);
-        navigate("/dashboard");
-      }
+      // No token yet - the user has to verify their email first
+      setSuccessMessage(response.data.message);
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
         setError("Something went wrong. Please try again later.");
       }
+    } finally {
+      setLoading(false);
     }
 
   };
@@ -80,6 +77,15 @@ const SignUp = () => {
     <AuthLayout>
       <div className='lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center'>
         <h3 className='text-xl font-semibold text-black'>Create an Account</h3>
+        {successMessage ? (
+          <>
+            <p className='text-sm text-slate-700 mt-3 mb-6'>{successMessage}</p>
+            <Link to='/login' className='btn-primary text-center'>
+              GO TO LOGIN
+            </Link>
+          </>
+        ) : (
+        <>
         <p className='text-xs text-slate-700 mt-[5px] mb-6'>
           Join us today by entering your details below.
         </p>
@@ -118,8 +124,8 @@ const SignUp = () => {
 
           {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
           
-            <button type="submit" className="btn-primary">
-                SIGN UP
+            <button type="submit" className="btn-primary disabled:opacity-70" disabled={loading}>
+                {loading ? "CREATING ACCOUNT..." : "SIGN UP"}
             </button>
           
             <p className='text-[13px] text-slate-800 mt-3'>
@@ -129,6 +135,8 @@ const SignUp = () => {
                 </Link>
             </p>
         </form>
+        </>
+        )}
       </div>
     </AuthLayout>
   )

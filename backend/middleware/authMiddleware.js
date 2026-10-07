@@ -8,6 +8,17 @@ exports.protect = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await User.findById(decoded.id).select('-password');
+
+        // User was deleted
+        if (!req.user) {
+            return res.status(401).json({ message: "Not authorized, token failed" });
+        }
+
+        // Token was issued before the password was last reset
+        if (req.user.passwordChangedAt && decoded.iat * 1000 < req.user.passwordChangedAt.getTime()) {
+            return res.status(401).json({ message: "Not authorized, token failed" });
+        }
+
         next();
     } catch (err) {
         res.status(401).json({ message: "Not authorized, token failed" });

@@ -5,23 +5,34 @@ const {
     loginUser,
     getUserInfo,
     updateUserInfo,
+    uploadProfileImage,
+    verifyEmail,
+    resendVerification,
+    forgotPassword,
+    resetPassword,
 } = require("../controllers/authController");
-const upload = require("../middleware/uploadMiddleware");
+const { singleImage } = require("../middleware/uploadMiddleware");
+const {
+    loginLimiter,
+    registerLimiter,
+    forgotPasswordLimiter,
+    resetPasswordLimiter,
+    verifyEmailLimiter,
+    resendVerificationLimiter,
+} = require("../middleware/rateLimitMiddleware");
 
 const router = express.Router();
 
-router.post("/register", registerUser);
-router.post("/login", loginUser);
+// Register accepts JSON or multipart (with an optional "image" profile photo)
+router.post("/register", registerLimiter, singleImage("image"), registerUser);
+router.post("/login", loginLimiter, loginUser);
+router.post("/verify-email/:token", verifyEmailLimiter, verifyEmail);
+router.post("/resend-verification", resendVerificationLimiter, resendVerification);
+router.post("/forgot-password", forgotPasswordLimiter, forgotPassword);
+router.post("/reset-password/:token", resetPasswordLimiter, resetPassword);
+
 router.get("/getUser", protect, getUserInfo);
 router.put("/update-user", protect, updateUserInfo);
-
-router.post("/upload-image", upload.single("image"), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ message: "No image uploaded" });
-    }
-    const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename
-        }`;
-    res.status(200).json({ imageUrl });
-});
+router.post("/upload-image", protect, singleImage("image"), uploadProfileImage);
 
 module.exports = router;

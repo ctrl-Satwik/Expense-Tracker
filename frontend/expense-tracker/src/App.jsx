@@ -8,6 +8,9 @@ import {
 } from 'react-router-dom';
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/SignUp';
+import VerifyEmail from './pages/Auth/VerifyEmail';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ResetPassword from './pages/Auth/ResetPassword';
 import Home from './pages/Dashboard/Home';
 import Income from './pages/Dashboard/Income';
 import Expense from './pages/Dashboard/Expense';
@@ -24,6 +27,9 @@ const App = () => {
             <Route path='/' element={<Root />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signUp' element={<SignUp />} />
+            <Route path='/verify-email/:token' element={<VerifyEmail />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/reset-password/:token' element={<ResetPassword />} />
             <Route path='/dashboard' element={<Home />} />
             <Route path='/income' element={<Income />} />
             <Route path='/expense' element={<Expense />} />
